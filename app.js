@@ -51,8 +51,9 @@ app.innerHTML=`
 </div>
 <div class=card>
 <h3>Novo jogo</h3>
-<input id=t1 placeholder="Time A">
-<input id=t2 placeholder="Time B">
+<input id="rodada" placeholder="Rodada" value="1">
+<input id="t1" placeholder="Time A">
+<input id="t2" placeholder="Time B">
 <button onclick="addGame()">Adicionar</button>
 </div>
 <div class=card>
@@ -69,10 +70,18 @@ db.ref("participants").push({name:n.value,pin:p.value});
 alert("Cadastrado");
 };
 window.addGame=()=>{
-db.ref("games").push({a:t1.value,b:t2.value});
+
+db.ref("games").push({
+    rodada: Number(document.getElementById("rodada").value),
+    a: document.getElementById("t1").value,
+    b: document.getElementById("t2").value
+});
+
 alert("Jogo criado");
+
 loadGamesAdmin();
 };
+
 window.setOpen=(v)=>db.ref("settings/open").set(v);
 
 function loadGamesAdmin(){
@@ -80,7 +89,11 @@ db.ref("games").on("value",s=>{
 let h="";
 s.forEach(c=>{
 const g=c.val();
-h+=`<div>${g.a} x ${g.b}
+h+=`<div>
+
+<strong>Rodada ${g.rodada}</strong><br>
+
+${g.a} x ${g.b}
 <input id=ga_${c.key} size=2>
 <input id=gb_${c.key} size=2>
 <button onclick="saveResult('${c.key}')">Salvar</button></div>`;
