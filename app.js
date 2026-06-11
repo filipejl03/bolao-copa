@@ -20,14 +20,11 @@ PIN <input id="pin" type="password"><br>
 <button onclick="login()">Entrar</button></div>`;
 db.ref("participants").once("value").then(s=>{
 const sel=document.getElementById("user");
-
 let options = '<option value="admin">Administrador</option>';
-
 s.forEach(c=>{
     const p = c.val();
     options += `<option value="${c.key}">${p.name}</option>`;
 });
-
 sel.innerHTML = options;
 });
 window.login=async()=>{
