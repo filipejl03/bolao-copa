@@ -40,7 +40,9 @@ else alert("Login inválido");
 };
 
 function adminPanel(){
-app.innerHTML=`<h2>Administrador</h2>
+app.innerHTML=`
+<h2>Administrador</h2>
+<button onclick="logout()">Sair</button>
 <div class=card>
 <h3>Novo participante</h3>
 <input id=n placeholder=Nome>
@@ -94,7 +96,11 @@ rb:document.getElementById("gb_"+id).value
 };
 
 function participant(id,u){
-app.innerHTML=`<h2>${u.name}</h2><div id=content></div>`;
+app.innerHTML=`
+<h2>${u.name}</h2>
+<button onclick="logout()">Sair</button>
+<div id="content"></div>
+`;
 db.ref("settings/open").on("value",o=>loadParticipant(id,o.val()));
 }
 function loadParticipant(uid,open){
