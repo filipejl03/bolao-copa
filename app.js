@@ -21,7 +21,7 @@ app.innerHTML=`<div class="card">
 <select id="user"><option value="admin">Administrador</option></select><br>
 PIN <input id="pin" type="password"><br>
 <button onclick="login()">Entrar</button></div>`;
-db.ref("participants").once("value").then(s=>{
+db.ref("participants").on("value").then(s=>{
 const sel=document.getElementById("user");
 let options = '<option value="admin">Administrador</option>';
 s.forEach(c=>{
