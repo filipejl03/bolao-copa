@@ -1,0 +1,179 @@
+/* ── Paleta ──────────────────────────────────────────────────────────────── */
+:root {
+  --verde-fundo:   #e8f5e9;
+  --verde-escuro:  #2e7d32;
+  --verde-medio:   #43a047;
+  --verde-claro:   #c8e6c9;
+  --dourado:       #f9a825;
+  --dourado-hover: #f57f17;
+  --vermelho:      #c62828;
+  --vermelho-hover:#b71c1c;
+  --azul:          #1565c0;
+  --azul-hover:    #0d47a1;
+  --texto:         #1b2e1c;
+  --cinza-borda:   #c5d9c6;
+  --branco:        #ffffff;
+}
+
+/* ── Reset / Base ────────────────────────────────────────────────────────── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: Arial, sans-serif;
+  background: var(--verde-fundo);
+  color: var(--texto);
+  min-height: 100vh;
+}
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+.header {
+  background: var(--verde-escuro);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 24px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+}
+
+.logo {
+  height: 72px;
+  width: auto;
+  border-radius: 8px;
+  background: #000;
+  padding: 4px;
+}
+
+.header-text h1 {
+  color: var(--dourado);
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: .5px;
+  line-height: 1.2;
+  text-shadow: 0 1px 3px rgba(0,0,0,.4);
+}
+
+.subtitulo {
+  color: var(--verde-claro);
+  font-size: .9rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ── Container ───────────────────────────────────────────────────────────── */
+.container {
+  max-width: 860px;
+  margin: 24px auto;
+  padding: 0 16px 40px;
+}
+
+/* ── Cards ───────────────────────────────────────────────────────────────── */
+.card {
+  background: var(--branco);
+  border: 1px solid var(--cinza-borda);
+  border-radius: 10px;
+  padding: 16px;
+  margin: 12px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,.07);
+}
+
+h2 {
+  color: var(--verde-escuro);
+  font-size: 1.4rem;
+  margin: 12px 0 8px;
+}
+
+h3 {
+  color: var(--verde-escuro);
+  font-size: 1.1rem;
+  margin: 10px 0 6px;
+  border-bottom: 2px solid var(--verde-claro);
+  padding-bottom: 4px;
+}
+
+/* ── Inputs / Selects ────────────────────────────────────────────────────── */
+input, select {
+  padding: 8px 10px;
+  margin: 4px 4px 4px 0;
+  border: 1px solid var(--cinza-borda);
+  border-radius: 6px;
+  font-size: .95rem;
+  background: #f9fdf9;
+  outline: none;
+  transition: border .2s;
+}
+input:focus, select:focus {
+  border-color: var(--verde-medio);
+  box-shadow: 0 0 0 2px rgba(67,160,71,.2);
+}
+input:disabled {
+  background: #f0f0f0;
+  color: #888;
+  cursor: not-allowed;
+}
+
+/* ── Botões ──────────────────────────────────────────────────────────────── */
+button {
+  padding: 8px 16px;
+  margin: 4px;
+  border: none;
+  border-radius: 6px;
+  font-size: .9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s, transform .1s;
+}
+button:active { transform: scale(.97); }
+
+/* Verde — ação principal (Entrar, Salvar palpite, Adicionar) */
+button {
+  background: var(--verde-medio);
+  color: var(--branco);
+}
+button:hover { background: var(--verde-escuro); }
+
+/* Amarelo/Dourado — ações do admin (Cadastrar, Salvar resultado) */
+button.btn-gold {
+  background: var(--dourado);
+  color: #1a1a1a;
+}
+button.btn-gold:hover { background: var(--dourado-hover); }
+
+/* Vermelho — Sair */
+button.btn-red {
+  background: var(--vermelho);
+  color: var(--branco);
+}
+button.btn-red:hover { background: var(--vermelho-hover); }
+
+/* Azul — Fechar/Abrir rodada */
+button.btn-blue {
+  background: var(--azul);
+  color: var(--branco);
+}
+button.btn-blue:hover { background: var(--azul-hover); }
+
+/* ── Tabelas de palpites ─────────────────────────────────────────────────── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .9rem;
+}
+thead tr {
+  background: var(--verde-claro);
+  color: var(--verde-escuro);
+}
+th, td {
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--cinza-borda);
+}
+tbody tr:hover { background: #f1f8f1; }
+
+/* ── Responsivo mobile ───────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .header { flex-direction: column; text-align: center; padding: 12px; }
+  .header-text h1 { font-size: 1.2rem; }
+  .logo { height: 56px; }
+  select, button { width: 100%; margin: 4px 0; }
+  input:not([style]) { width: 100%; margin: 4px 0; }
+}
