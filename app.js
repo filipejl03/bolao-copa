@@ -115,7 +115,7 @@ window.toggleRound=(nome,valor)=>{
 
 db.ref("rounds/"+nome+"/open").set(valor);
 
-};}
+};
 window.addParticipant=()=>{
 db.ref("participants").push({name:n.value,pin:p.value});
 alert("Cadastrado");
