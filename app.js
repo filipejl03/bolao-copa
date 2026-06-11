@@ -51,19 +51,59 @@ app.innerHTML=`
 </div>
 <div class=card>
 <h3>Novo jogo</h3>
-<input id="rodada" placeholder="Rodada" value="1">
+<input id="rodada" placeholder="Nome da Rodada">
 <input id="t1" placeholder="Time A">
 <input id="t2" placeholder="Time B">
 <button onclick="addGame()">Adicionar</button>
 </div>
-<div class=card>
-<button onclick="setOpen(true)">Abrir Palpites</button>
-<button onclick="setOpen(false)">Fechar Palpites</button>
-</div>
+
 <div class=card>
 <h3>Resultados</h3>
 <div id=games></div></div>`;
-loadGamesAdmin();
+<div class=card>
+<h3>Rodadas</h3>
+<div id=rounds></div>
+</div>
+loadGamesAdmin()
+    function loadRounds(){
+
+db.ref("rounds").on("value",s=>{
+
+let h="";
+
+s.forEach(c=>{
+
+const r=c.val();
+
+h+=`
+<div style="margin-bottom:10px">
+
+<strong>${c.key}</strong>
+
+ - ${r.open ? "🟢 Aberta" : "🔴 Fechada"}
+
+ <button onclick="toggleRound('${c.key}',${!r.open})">
+
+ ${r.open ? "Fechar" : "Abrir"}
+
+ </button>
+
+</div>
+`;
+
+});
+
+document.getElementById("rounds").innerHTML=h;
+
+});
+
+};
+    window.toggleRound=(nome,valor)=>{
+
+db.ref("rounds/"+nome+"/open")
+.set(valor);
+
+};
 }
 window.addParticipant=()=>{
 db.ref("participants").push({name:n.value,pin:p.value});
@@ -71,43 +111,85 @@ alert("Cadastrado");
 };
 window.addGame=()=>{
 
+const nomeRodada =
+document.getElementById("rodada").value;
+
+db.ref("rounds/"+nomeRodada).set({
+    open:true
+});
+
 db.ref("games").push({
-    rodada: Number(document.getElementById("rodada").value),
-    a: document.getElementById("t1").value,
-    b: document.getElementById("t2").value
+    rodada:nomeRodada,
+    a:document.getElementById("t1").value,
+    b:document.getElementById("t2").value
 });
 
 alert("Jogo criado");
 
 loadGamesAdmin();
+loadRounds();
 };
 
-window.setOpen=(v)=>db.ref("settings/open").set(v);
 
 function loadGamesAdmin(){
-db.ref("games").on("value",s=>{
-let h="";
-s.forEach(c=>{
-const g=c.val();
-h+=`<div>
 
-<strong>Rodada ${g.rodada}</strong><br>
+db.ref("games").on("value",s=>{
+
+let h="";
+
+const grupos={};
+
+s.forEach(c=>{
+
+const g=c.val();
+
+if(!grupos[g.rodada])
+grupos[g.rodada]=[];
+
+grupos[g.rodada].push({
+id:c.key,
+game:g
+});
+
+});
+
+for(const rodada in grupos){
+
+h+=`<h3>${rodada}</h3>`;
+
+grupos[rodada].forEach(item=>{
+
+const g=item.game;
+
+h+=`
+
+<div>
 
 ${g.a} x ${g.b}
-<input id=ga_${c.key} size=2>
-<input id=gb_${c.key} size=2>
-<button onclick="saveResult('${c.key}')">Salvar</button></div>`;
-});
-games.innerHTML=h;
-});
-}
-window.saveResult=(id)=>{
-db.ref("games/"+id).update({
-ra:document.getElementById("ga_"+id).value,
-rb:document.getElementById("gb_"+id).value
-});
-};
 
+<input id="ga_${item.id}" size="2">
+
+<input id="gb_${item.id}" size="2">
+
+<button onclick="saveResult('${item.id}')">
+
+Salvar
+
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+games.innerHTML=h;
+
+});
+
+}
 function participant(id,u){
 app.innerHTML=`
 <h2>${u.name}</h2>
