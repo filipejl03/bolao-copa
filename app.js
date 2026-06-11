@@ -21,7 +21,7 @@ app.innerHTML=`<div class="card">
 <select id="user"><option value="admin">Administrador</option></select><br>
 PIN <input id="pin" type="password"><br>
 <button onclick="login()">Entrar</button></div>`;
-db.ref("participants").on("value").then(s=>{
+db.ref("participants").on("value",(s)=>{
 const sel=document.getElementById("user");
 let options = '<option value="admin">Administrador</option>';
 s.forEach(c=>{
@@ -42,14 +42,17 @@ else alert("Login inválido");
 function adminPanel(){
 app.innerHTML=`
 <h2>Administrador</h2>
+
 <button onclick="logout()">Sair</button>
-<div class=card>
+
+<div class="card">
 <h3>Novo participante</h3>
-<input id=n placeholder=Nome>
-<input id=p placeholder=PIN>
+<input id="n" placeholder="Nome">
+<input id="p" placeholder="PIN">
 <button onclick="addParticipant()">Cadastrar</button>
 </div>
-<div class=card>
+
+<div class="card">
 <h3>Novo jogo</h3>
 <input id="rodada" placeholder="Nome da Rodada">
 <input id="t1" placeholder="Time A">
@@ -57,15 +60,26 @@ app.innerHTML=`
 <button onclick="addGame()">Adicionar</button>
 </div>
 
-<div class=card>
+<div class="card">
 <h3>Resultados</h3>
-<div id=games></div></div>`;
-<div class=card>
-<h3>Rodadas</h3>
-<div id=rounds></div>
+<div id="games"></div>
 </div>
-loadGamesAdmin()
-    function loadRounds(){
+
+<div class="card">
+<h3>Rodadas</h3>
+<div id="rounds"></div>
+</div>
+`;
+
+    loadGamesAdmin();
+    loadRounds();
+}
+   function loadGamesAdmin(){
+
+   ...
+}
+
+function loadRounds(){
 
 db.ref("rounds").on("value",s=>{
 
@@ -97,14 +111,13 @@ document.getElementById("rounds").innerHTML=h;
 
 });
 
-};
-    window.toggleRound=(nome,valor)=>{
-
-db.ref("rounds/"+nome+"/open")
-.set(valor);
-
-};
 }
+
+window.toggleRound=(nome,valor)=>{
+
+db.ref("rounds/"+nome+"/open").set(valor);
+
+};}
 window.addParticipant=()=>{
 db.ref("participants").push({name:n.value,pin:p.value});
 alert("Cadastrado");
@@ -191,12 +204,17 @@ games.innerHTML=h;
 
 }
 function participant(id,u){
+
 app.innerHTML=`
 <h2>${u.name}</h2>
+
 <button onclick="logout()">Sair</button>
+
 <div id="content"></div>
 `;
-db.ref("settings/open").on("value",o=>loadParticipant(id,o.val()));
+
+loadParticipant(id,true);
+
 }
 function loadParticipant(uid,open){
 db.ref("games").once("value").then(s=>{
