@@ -30,6 +30,7 @@ s.forEach(c=>{
 });
 sel.innerHTML = options;
 });
+}
 window.login=async()=>{
 const u=user.value,p=pin.value;
 if(u==="admin" && p==="2025"){adminPanel();return;}
