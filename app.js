@@ -74,9 +74,7 @@ app.innerHTML=`
     loadGamesAdmin();
     loadRounds();
 }
-   function loadGamesAdmin(){
-
-   ...
+  
 }
 
 function loadRounds(){
