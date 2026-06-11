@@ -1,4 +1,7 @@
 
+function logout() {
+    location.reload();
+}
 const firebaseConfig={
 apiKey:"AIzaSyAMEAYIBuax5h2CaBugrRraVCEeVVST2KI",
 authDomain:"bolao-copa-2026-c8b2b.firebaseapp.com",
